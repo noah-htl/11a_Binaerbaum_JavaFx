@@ -53,7 +53,10 @@ public class BinaryTree<T extends Comparable<T>> {
             node.setLevelFromTop(1);
             this.depth = 1;
         } else {
-            this.depth = add(node, this.getRoot(), 2);
+            int insertionDepth = add(node, this.getRoot(), 2);
+            if(insertionDepth > this.depth) {
+                this.depth = insertionDepth;
+            }
         }
     }
 
