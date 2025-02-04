@@ -6,6 +6,4 @@ module at.htlsaalfelden.binaerbaum {
 
     opens at.htlsaalfelden.binaerbaum to javafx.fxml;
     exports at.htlsaalfelden.binaerbaum;
-    exports at.htlsaalfelden.binaerbaum.BinaryTree;
-    opens at.htlsaalfelden.binaerbaum.BinaryTree to javafx.fxml;
 }
