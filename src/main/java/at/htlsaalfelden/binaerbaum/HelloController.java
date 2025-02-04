@@ -5,16 +5,21 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public class HelloController {
+    @FXML
+    public TextField text;
     @FXML
     private AnchorPane pane;
 
@@ -25,18 +30,10 @@ public class HelloController {
 
     private int n = 0;
 
-    public void initialize() {
-        BinaryTree tree = new BinaryTree();
-        tree.add(10);
-        tree.add(5);
-        tree.add(15);
-        tree.add(7);
-        tree.add(16);
-        tree.add(17);
+    private BinaryTree tree;
 
-        n = tree.getSize() + 1;
-        calculateNewValues();
-        tree.order(BinaryTree.ORDER.LEVEL, this::callback);
+    public void initialize() {
+        tree = new BinaryTree();
     }
 
     private void callback(TreeNode node) {
@@ -119,14 +116,16 @@ public class HelloController {
         final int mulY = 20;
 
         n--;
-        spacing = (int) Math.pow(2, n) * mulX;
+        spacing = (int) Math.pow(2, n) * 10 + mulX;
         if(n == 0) {
             indent = 1;
         } else {
             indent = (int) Math.pow(2, n-1) - 1;
         }
 
-        indent *= mulX;
+        indent *= 10;
+
+        indent += mulX;
 
 
         currentX = indent;
@@ -134,10 +133,28 @@ public class HelloController {
     }
 
     private void add(Integer data) {
+        indent = 0;
+        spacing = 0;
+        currentY = 0;
+        currentX = 0;
+        n = 0;
 
+        pane.getChildren().clear();
+
+        tree.add(data);
+        n = tree.getSize() + 1;
+        calculateNewValues();
+        tree.order(BinaryTree.ORDER.LEVEL, this::callback);
     }
 
-    private void show() {
-
+    public void onKey(KeyEvent keyEvent) {
+        if(Objects.equals(keyEvent.getCharacter(), "\r")) {
+            try {
+                add(Integer.parseInt(text.getText()));
+                text.setText("");
+            } catch (NumberFormatException e) {
+                text.setText("");
+            }
+        }
     }
 }
