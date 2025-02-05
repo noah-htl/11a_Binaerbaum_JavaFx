@@ -7,10 +7,10 @@ public class TreeNode {
     private TreeNode left;
     private TreeNode right;
 
-    private TreeNode parent;
+    private transient TreeNode parent;
 
-    private Line lineLeft;
-    private Line lineRight;
+    private transient Line lineLeft;
+    private transient Line lineRight;
 
     public TreeNode getLeft() {
         return left;

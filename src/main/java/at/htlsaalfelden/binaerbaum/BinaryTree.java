@@ -95,6 +95,25 @@ public class BinaryTree {
         }
     }
 
+    public void afterInit() {
+        order(ORDER.LEVEL, new Consumer<TreeNode>() {
+            @Override
+            public void accept(TreeNode node) {
+                if(node == null || node.getData() == null) {
+                    return;
+                }
+
+                if(node.getLeft() != null) {
+                    node.getLeft().setParent(node);
+                }
+
+                if(node.getRight() != null) {
+                    node.getRight().setParent(node);
+                }
+            }
+        });
+    }
+
     public int getSize() {
         return size;
     }

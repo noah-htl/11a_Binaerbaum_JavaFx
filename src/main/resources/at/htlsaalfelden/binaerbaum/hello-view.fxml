@@ -8,9 +8,15 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="at.htlsaalfelden.binaerbaum.HelloController">
-    <TextField fx:id="text" onKeyTyped="#onKey"/>
+      fx:controller="at.htlsaalfelden.binaerbaum.HelloController" onScroll="#scroll" onMouseDragged="#drag">
+    <HBox>
+        <TextField fx:id="text" onKeyTyped="#onKey"/>
+        <Button onAction="#save">Save</Button>
+        <Button onAction="#load">Load</Button>
+    </HBox>
+
     <AnchorPane fx:id="pane">
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
