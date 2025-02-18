@@ -20,6 +20,7 @@ import javafx.scene.shape.Line;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -34,7 +35,6 @@ public class HelloController {
     private int spacing = 0;
     private int currentX = 0;
     private int currentY = 0;
-    private double multiplier = 1;
 
     private int n = 0;
 
@@ -42,6 +42,8 @@ public class HelloController {
 
     public void initialize() {
         tree = new BinaryTree();
+
+        load(null);
     }
 
     private void callback(TreeNode node) {
@@ -82,6 +84,9 @@ public class HelloController {
             }
 
             pane.getChildren().add(label);
+        } else {
+            StackPane label = createNode(new TreeNode(0), currentX, currentY);
+            pane.getChildren().add(label);
         }
 
         currentX += spacing;
@@ -100,10 +105,16 @@ public class HelloController {
     }
 
     private double[] getSize(StackPane stackPane) {
-        double dx = stackPane.getWidth();
-        double dy = stackPane.getHeight();
+        stackPane.applyCss();
+        Bounds bounds = null;
+        for(Node node : stackPane.getChildren()) {
+            if (node instanceof Circle l) {
+                bounds = l.getLayoutBounds();
+                break;
+            }
+        }
 
-        return new double[] { dx, dy };
+        return new double[] { bounds.getWidth(), bounds.getHeight() };
     }
 
     private double[] getMiddle(StackPane stackPane) {
@@ -120,24 +131,14 @@ public class HelloController {
     }
 
     private void calculateNewValues() {
-        final int mulX = 15;
-        final int mulY = 20;
+        final int mul = 30;
 
         n--;
-        spacing = (int) Math.pow(2, n) * 10 + mulX;
-        if(n == 0) {
-            indent = 0;
-        } else {
-            indent = (int) Math.pow(2, n-1) - 1;
-        }
-
-        indent *= 10;
-
-        indent += mulX;
-
+        spacing = (int) Math.pow(2, n) * mul;
+        indent = ((int) Math.pow(2, n-1) - 1) * mul;
 
         currentX = indent;
-        currentY += mulY;
+        currentY += mul;
     }
 
     private void add(Integer data) {
